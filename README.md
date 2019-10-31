@@ -30,6 +30,10 @@ Install Mongo Db and create a Mongo Database, the applicaiton is defaulted to "o
   since the applicaiton has some default mongo configuration, to override custom properties, pass spring.data.mongodb configuration as a commanline argument
   For eg. ./mvnw spring-boot:run -Dspring.data.mongodb.uri=mongodb://user:secret@mongo1.example.com:12345
   
+  Once The Backend appplication starts, 
+    - you can check the status of the applicaiton using the actuator endpoint http://localhost:8080/actuator/health
+    - To Access the Swagger Document - browse on http://localhost:8080/swagger-ui.html
+  
   # - Front-End Application
 
 To run the applicaiton, 
