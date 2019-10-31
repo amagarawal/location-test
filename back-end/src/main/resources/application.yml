@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      database: operr_location
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      username: amit
+      password: mongoAdmin
+  output:
+    ansi:
+        enabled: DETECT
+     
+logging:
+  pattern: 
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%'
+  level:
+    com.operr.assignment: DEBUG
+    org.springframework.data.mongodb: DEBUG
+
+    
+  

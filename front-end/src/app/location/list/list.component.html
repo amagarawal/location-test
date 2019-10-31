@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <div class="row p-15">
+    <div class="col col-md-8">
+      <form class="form-inline">
+        <div class="form-group mb-2">
+          <label for="locaitonName" class="sr-only">Location Name</label>
+          <input #lname="ngModel" name="lname" [(ngModel)]="search['name']" class="form-control" id="locaitonName"
+            placeholder="Name">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="distance" class="sr-only">Distance</label>
+          <input type="text" class="form-control" id="distance" placeholder="100..." name="distance"
+            [(ngModel)]="search['distance']" #distance="ngModel">
+        </div>
+        <button class="btn btn-primary mb-2" (click)="searchLocation()">Search</button>
+        <button class="btn btn-danger mb-2 ml-2" (click)="reset()" *ngIf="isSearch">Reset</button>
+      </form>
+    </div>
+    <div class="col col-md-4">
+      <button type="button" class="btn btn-success float-right" data-toggle="modal"
+        data-target="#exampleModalCenter">Add New Location</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Longitude</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loc of locations">
+            <th scope="row">{{loc.id}}</th>
+            <td>{{loc.name}}</td>
+            <td>{{loc.latitude}}</td>
+            <td>{{loc.longitude}}</td>
+            <td>
+              <span>
+                <a class="m-l-10" data-toggle="modal" data-target="#exampleModalCenter" (click)="editMode(loc)">
+                  <fa name="pencil" size="lg"></fa>
+                </a></span>
+              <span><a class="m-l-10">
+                  <fa name="trash" size="lg" (click) = "delete(loc.id)"></fa>
+                </a></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Add Modal-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          {{isEdit? "Update Locaiton":"Add New Location" }}
+        </h5>
+      </div>
+      <div class="modal-body">
+        
+        <form>
+          <div class="form-group">
+            <label for="lname">Location Name</label>
+            <input class="form-control" id="lname" placeholder="Enter Location Name" #name="ngModel" name="name"
+              [(ngModel)]="locationDetails.name">
+          </div>
+          <div class="form-group" >
+            <label for="lat">Latitude</label>
+            <input  class="form-control" id="lat" placeholder="Latitude" #latitude="ngModel"  [ngClass]="{ 'is-invalid':(latitude.dirty || latitude.touched) && latitude.invalid }"
+              name="latitude" [(ngModel)]="locationDetails.latitude" required pattern="[0-9]*(\.[0-9]+)?" max="90">
+              <div *ngIf="latitude.invalid && (latitude.dirty || latitude.touched)"
+              class="invalid-feedback"> 
+
+              <div *ngIf="latitude.errors.required">
+                  Latitude is required.
+                </div>
+                <div *ngIf="latitude.errors.pattern">
+                    Latitude is can only be numbers.
+                </div>
+            
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lng">Longtitude</label>
+            <input class="form-control" id="lng" placeholder="Longitude" #longtitude="ngModel"  [ngClass]="{ 'is-invalid':(longtitude.dirty || longtitude.touched) && longtitude.invalid }"
+              name="longtitude" [(ngModel)]="locationDetails.longitude" required pattern="[0-9]*(\.[0-9]+)?" max="90">
+              <div *ngIf="longtitude.invalid && (longtitude.dirty || longtitude.touched)"
+              class="invalid-feedback"> 
+
+              <div *ngIf="longtitude.errors.required">
+                  Longitude is required.
+              </div>
+              <div *ngIf="longtitude.errors.pattern">
+                  Longitude is can only be numbers.
+              </div>
+            
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="add();" *ngIf="!isEdit">Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="update();" *ngIf="isEdit">Update changes</button>
+      </div>
+    </div>
+  </div>
+</div>
